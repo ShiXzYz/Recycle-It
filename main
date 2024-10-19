@@ -9,8 +9,7 @@ fps = 60
 timer = pygame.time.Clock()
 screen = pygame.display.set_mode([WIDTH, HEIGHT])
 
-pygame.display.set_caption('Health Bar')
-
+pygame.display.set_caption('Hoos Recycle')
 class HealthBar():
   def __init__(self, x, y, w, h, max_hp):
     self.x = x
@@ -25,14 +24,17 @@ class HealthBar():
     ratio = self.hp / self.max_hp
     pygame.draw.rect(surface, "red", (self.x, self.y, self.w, self.h))
     pygame.draw.rect(surface, "green", (self.x, self.y, self.w * ratio, self.h))
-
 health_bar = HealthBar(680, 10, 300, 40, 100)
+
 pygame.mouse.set_visible(False)
 
 #Image file loads
 hand = pygame.image.load("hand.webp")
 edit_hand = pygame.transform.scale(hand, (20, 20))
 rect_hand = edit_hand.get_rect()
+
+soda = pygame.image.load("soda.png")
+edit_soda = pygame.transform.scale(soda, (100, 100))
 
 boxes = []
 for i in range(5):
@@ -43,6 +45,16 @@ for i in range(5):
 	box = pygame.Rect(x, y, w, h)
 	boxes.append(box)
 active_box = None
+
+trash = []
+for i in range(5):
+	x = random.randint(50, 850)
+	y = random.randint(50, 250)
+	item = edit_soda.get_rect()
+	item.x = x
+	item.y = y
+	trash.append(item)
+active_item = None
 
 
 rec0 = pygame.Rect(50, 400, 100, 175)
@@ -66,6 +78,9 @@ while run:
 
 	for box in boxes:
 		pygame.draw.rect(screen, "purple", box)
+
+	for item in trash:
+		screen.blit(edit_soda, item)
 
 	rec0 = pygame.draw.rect(screen, "green", rec0)
 	rec1 = pygame.draw.rect(screen, "green", rec1)
@@ -91,7 +106,7 @@ while run:
 		elif counter == 2:
 			if left_clicked and box.colliderect(rec0):
 				health_bar.hp = 0
-		print(counter)
+		#print(counter)
 
 	for event in pygame.event.get():
 		if event.type == pygame.MOUSEBUTTONDOWN:
@@ -99,12 +114,18 @@ while run:
 				for num, box in enumerate(boxes):
 					if box.collidepoint(event.pos):
 						active_box = num
+				for num, item in enumerate(trash):
+					if item.collidepoint(event.pos):
+						active_item = num
 		if event.type == pygame.MOUSEBUTTONUP:
 			if event.button == 1:
 				active_box = None
+				active_item = None
 		if event.type == pygame.MOUSEMOTION:
 			if active_box != None:
 				boxes[active_box].move_ip(event.rel)
+			if active_item != None:
+				trash[active_item].move_ip(event.rel)
 		if event.type == pygame.QUIT:
 			run = False
 		if event.type == pygame.KEYDOWN:
