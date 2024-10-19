@@ -58,8 +58,6 @@ run = True
 
 health_bar.hp = 100
 
-counter = 0
-
 while run:
 	screen.fill('white')
 	timer.tick(fps)
@@ -83,17 +81,8 @@ while run:
 	left_clicked = pygame.mouse.get_pressed()[0]
 
 	for item in trash:
-		if counter == 0:
-			if left_clicked and item.colliderect(rec0):
-				health_bar.hp = 67
-				counter += 1
-		elif counter == 1:
-			if left_clicked and item.colliderect(rec0):
-				health_bar.hp = 34
-				counter += 1
-		elif counter == 2:
-			if left_clicked and item.colliderect(rec0):
-				health_bar.hp = 0
+		if left_clicked and item.colliderect(rec0):
+			health_bar.hp = 0
 		#print(counter)
 
 	for event in pygame.event.get():
