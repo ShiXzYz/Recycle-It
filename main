@@ -38,13 +38,12 @@ edit_soda = pygame.transform.scale(soda, (100, 100))
 
 
 trash = []
-for i in range(5):
-	x = random.randint(50, 850)
-	y = random.randint(50, 250)
-	item = edit_soda.get_rect()
-	item.x = x
-	item.y = y
-	trash.append(item)
+x = random.randint(50, 850)
+y = random.randint(50, 250)
+item = edit_soda.get_rect()
+item.x = x
+item.y = y
+trash.append(item)
 active_item = None
 
 
@@ -81,8 +80,10 @@ while run:
 	left_clicked = pygame.mouse.get_pressed()[0]
 
 	for item in trash:
-		if left_clicked and item.colliderect(rec0):
+		if not left_clicked and edit_soda.colliderect(rec0):
 			health_bar.hp = 0
+			edit_soda = pygame.transform.scale(soda, (0, 0))
+
 		#print(counter)
 
 	for event in pygame.event.get():
