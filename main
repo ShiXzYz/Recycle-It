@@ -36,15 +36,6 @@ rect_hand = edit_hand.get_rect()
 soda = pygame.image.load("soda.png")
 edit_soda = pygame.transform.scale(soda, (100, 100))
 
-boxes = []
-for i in range(5):
-	x = random.randint(50, 850)
-	y = random.randint(50, 250)
-	w = random.randint(35, 65)
-	h = random.randint(35, 65)
-	box = pygame.Rect(x, y, w, h)
-	boxes.append(box)
-active_box = None
 
 trash = []
 for i in range(5):
@@ -76,9 +67,6 @@ while run:
 
 	health_bar.draw(screen)
 
-	for box in boxes:
-		pygame.draw.rect(screen, "purple", box)
-
 	for item in trash:
 		screen.blit(edit_soda, item)
 
@@ -94,36 +82,30 @@ while run:
 	#print(pygame.mouse.get_pressed())
 	left_clicked = pygame.mouse.get_pressed()[0]
 
-	for box in boxes:
+	for item in trash:
 		if counter == 0:
-			if left_clicked and box.colliderect(rec0):
+			if left_clicked and item.colliderect(rec0):
 				health_bar.hp = 67
 				counter += 1
 		elif counter == 1:
-			if left_clicked and box.colliderect(rec0):
+			if left_clicked and item.colliderect(rec0):
 				health_bar.hp = 34
 				counter += 1
 		elif counter == 2:
-			if left_clicked and box.colliderect(rec0):
+			if left_clicked and item.colliderect(rec0):
 				health_bar.hp = 0
 		#print(counter)
 
 	for event in pygame.event.get():
 		if event.type == pygame.MOUSEBUTTONDOWN:
 			if event.button == 1:
-				for num, box in enumerate(boxes):
-					if box.collidepoint(event.pos):
-						active_box = num
 				for num, item in enumerate(trash):
 					if item.collidepoint(event.pos):
 						active_item = num
 		if event.type == pygame.MOUSEBUTTONUP:
 			if event.button == 1:
-				active_box = None
 				active_item = None
 		if event.type == pygame.MOUSEMOTION:
-			if active_box != None:
-				boxes[active_box].move_ip(event.rel)
 			if active_item != None:
 				trash[active_item].move_ip(event.rel)
 		if event.type == pygame.QUIT:
