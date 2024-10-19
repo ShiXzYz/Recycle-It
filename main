@@ -6,7 +6,13 @@ WIDTH = 500
 HEIGHT = 500
 fps = 60
 timer = pygame.time.Clock()
-screen = pygame.display.set_mode([WIDHT, HEIGHT])
+screen = pygame.display.set_mode([WIDTH, HEIGHT])
+
+pygame.mouse.set_visible(False)
+
+#Image file loads
+hand = pygame.image.load("hand.webp")
+edit_hand = pygame.transform.scale(hand, (20, 20))
 
 run = True
 
@@ -14,8 +20,8 @@ while run:
 	screen.fill('white')
 	timer.tick(fps)
 	mouse_position = pygame.mouse.get_pos()
-	pygame.draw.circle(screen, 'red', mouse_position, 10)
-	print(pygame.mouse.get_pressed())
+	screen.blit(edit_hand, mouse_position)
+	#print(pygame.mouse.get_pressed())
 	left_clicked = pygame.mouse.get_pressed()[0]
 	for event in pygame.event.get():
 		if event.type == pygame.QUIT:
