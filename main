@@ -35,6 +35,7 @@ rect_hand = edit_hand.get_rect()
 
 soda = pygame.image.load("soda.png")
 edit_soda = pygame.transform.scale(soda, (100, 100))
+rect_soda = edit_soda.get_rect()
 
 
 trash = []
@@ -80,7 +81,7 @@ while run:
 	left_clicked = pygame.mouse.get_pressed()[0]
 
 	for item in trash:
-		if not left_clicked and edit_soda.colliderect(rec0):
+		if not left_clicked and item.colliderect(rec0):
 			health_bar.hp = 0
 			edit_soda = pygame.transform.scale(soda, (0, 0))
 
