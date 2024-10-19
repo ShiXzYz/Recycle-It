@@ -1,56 +1,148 @@
-screen.fill('white')
-	timer.tick(fps)
-	mouse_position = pygame.mouse.get_pos()
+# Simple pygame program
 
-	health_bar.draw(screen)
+# Import and initialize the pygame library
+import pygame
+import random
 
-	for box in boxes:
-		pygame.draw.rect(screen, "purple", box)
+pygame.init()
 
-	rec0 = pygame.draw.rect(screen, "green", rec0)
-	rec1 = pygame.draw.rect(screen, "green", rec1)
-	rec2 = pygame.draw.rect(screen, "green", rec2)
-	rec3 = pygame.draw.rect(screen, "green", rec3)
-	rec4 = pygame.draw.rect(screen, "green", rec4)
+# Set up the drawing window
+screen = pygame.display.set_mode((1000, 600))
+# Run until the user asks to quit
+running = True
+fps = 60
+timer = pygame.time.Clock()
+#backgrounds
+title = pygame.image.load('title.png').convert_alpha()
+bg1 = pygame.image.load('bg1.png').convert_alpha()
+bg2 = pygame.image.load('bg2.png').convert_alpha()
+button = pygame.image.load('start.png').convert_alpha()
 
-	screen.blit(edit_hand, mouse_position)
-	
+current_screen = title
 
-	#print(pygame.mouse.get_pressed())
-	left_clicked = pygame.mouse.get_pressed()[0]
+while running:
+    # Did the user click the window close button?
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            running = False
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_SPACE:
+                if current_screen == title:
+                    current_screen = bg1
+                elif current_screen == bg1:
+                    current_screen = bg2
 
-	for box in boxes:
-		if counter == 0:
-			if left_clicked and box.colliderect(rec0):
-				health_bar.hp = 67
-				counter += 1
-		elif counter == 1:
-			if left_clicked and box.colliderect(rec0):
-				health_bar.hp = 34
-				counter += 1
-		elif counter == 2:
-			if left_clicked and box.colliderect(rec0):
-				health_bar.hp = 0
-		print(counter)
+    screen.blit(current_screen, (0,0))
+    pygame.display.flip()
+    pygame.display.update()
 
-	for event in pygame.event.get():
-		if event.type == pygame.MOUSEBUTTONDOWN:
-			if event.button == 1:
-				for num, box in enumerate(boxes):
-					if box.collidepoint(event.pos):
-						active_box = num
-		if event.type == pygame.MOUSEBUTTONUP:
-			if event.button == 1:
-				active_box = None
-		if event.type == pygame.MOUSEMOTION:
-			if active_box != None:
-				boxes[active_box].move_ip(event.rel)
-		if event.type == pygame.QUIT:
-			run = False
-		if event.type == pygame.KEYDOWN:
-			if event.key == pygame.K_ESCAPE:
-				run = False
-			#if event.key == pygame.K_r:
-				#do nothing for now
+    while current_screen == bg2:
+        for event in pygame.event.get():
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_SPACE:
+                    pygame.display.set_caption('Health Bar')
+                    class HealthBar():
+                        def __init__(self, x, y, w, h, max_hp):
+                            self.x = x
+                            self.y = y
+                            self.w = w
+                            self.h = h
+                            self.hp = max_hp
+                            self.max_hp = max_hp
 
-	pygame.display.flip()
+                        def draw(self, surface):
+                            # calculate health ratio
+                            ratio = self.hp / self.max_hp
+                            pygame.draw.rect(surface, "red", (self.x, self.y, self.w, self.h))
+                            pygame.draw.rect(surface, "green", (self.x, self.y, self.w * ratio, self.h))
+
+
+                    health_bar = HealthBar(680, 10, 300, 40, 100)
+                    pygame.mouse.set_visible(False)
+
+                    # Image file loads
+                    hand = pygame.image.load("hand.webp")
+                    edit_hand = pygame.transform.scale(hand, (20, 20))
+                    rect_hand = edit_hand.get_rect()
+
+                    boxes = []
+                    for i in range(5):
+                        x = random.randint(50, 850)
+                        y = random.randint(50, 250)
+                        w = random.randint(35, 65)
+                        h = random.randint(35, 65)
+                        box = pygame.Rect(x, y, w, h)
+                        boxes.append(box)
+                    active_box = None
+
+                    rec0 = pygame.Rect(50, 400, 100, 175)
+                    rec1 = pygame.Rect(250, 400, 100, 175)
+                    rec2 = pygame.Rect(450, 400, 100, 175)
+                    rec3 = pygame.Rect(650, 400, 100, 175)
+                    rec4 = pygame.Rect(850, 400, 100, 175)
+
+                    run = True
+
+                    health_bar.hp = 100
+
+                    counter = 0
+
+                    screen.fill('white')
+                    timer.tick(fps)
+                    mouse_position = pygame.mouse.get_pos()
+
+                    health_bar.draw(screen)
+
+                    for box in boxes:
+                        pygame.draw.rect(screen, "purple", box)
+
+                    rec0 = pygame.draw.rect(screen, "green", rec0)
+                    rec1 = pygame.draw.rect(screen, "green", rec1)
+                    rec2 = pygame.draw.rect(screen, "green", rec2)
+                    rec3 = pygame.draw.rect(screen, "green", rec3)
+                    rec4 = pygame.draw.rect(screen, "green", rec4)
+
+                    screen.blit(edit_hand, mouse_position)
+
+                    # print(pygame.mouse.get_pressed())
+                    left_clicked = pygame.mouse.get_pressed()[0]
+
+                    for box in boxes:
+                        if counter == 0:
+                            if left_clicked and box.colliderect(rec0):
+                                health_bar.hp = 67
+                                counter += 1
+                        elif counter == 1:
+                            if left_clicked and box.colliderect(rec0):
+                                health_bar.hp = 34
+                                counter += 1
+                        elif counter == 2:
+                            if left_clicked and box.colliderect(rec0):
+                                health_bar.hp = 0
+                        print(counter)
+
+                    for event in pygame.event.get():
+                        if event.type == pygame.MOUSEBUTTONDOWN:
+                            if event.button == 1:
+                                for num, box in enumerate(boxes):
+                                    if box.collidepoint(event.pos):
+                                        active_box = num
+                        if event.type == pygame.MOUSEBUTTONUP:
+                            if event.button == 1:
+                                active_box = None
+                        if event.type == pygame.MOUSEMOTION:
+                            if active_box != None:
+                                boxes[active_box].move_ip(event.rel)
+                        if event.type == pygame.QUIT:
+                            run = False
+                        if event.type == pygame.KEYDOWN:
+                            if event.key == pygame.K_ESCAPE:
+                                run = False
+                        # if event.key == pygame.K_r:
+                        # do nothing for now
+
+                    pygame.display.flip()
+
+
+# Done! Time to quit.
+pygame.quit()
