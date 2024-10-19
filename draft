@@ -1,38 +1,56 @@
-# Simple pygame program
+screen.fill('white')
+	timer.tick(fps)
+	mouse_position = pygame.mouse.get_pos()
 
-# Import and initialize the pygame library
-import pygame
+	health_bar.draw(screen)
 
-pygame.init()
+	for box in boxes:
+		pygame.draw.rect(screen, "purple", box)
 
-# Set up the drawing window
-screen = pygame.display.set_mode((1000, 600))
-# Run until the user asks to quit
-running = True
-#backgrounds
-title = pygame.image.load('title.png').convert_alpha()
-bg1 = pygame.image.load('bg1.png').convert_alpha()
-bg2 = pygame.image.load('bg2.png').convert_alpha()
-start = pygame.image.load('start.png').convert_alpha()
+	rec0 = pygame.draw.rect(screen, "green", rec0)
+	rec1 = pygame.draw.rect(screen, "green", rec1)
+	rec2 = pygame.draw.rect(screen, "green", rec2)
+	rec3 = pygame.draw.rect(screen, "green", rec3)
+	rec4 = pygame.draw.rect(screen, "green", rec4)
 
-current_screen = title
+	screen.blit(edit_hand, mouse_position)
+	
 
-while running:
-    # Did the user click the window close button?
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            running = False
-        if event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_SPACE:
-                if current_screen == title:
-                    current_screen = bg1
-                elif current_screen == bg1:
-                    current_screen = bg1
-        
+	#print(pygame.mouse.get_pressed())
+	left_clicked = pygame.mouse.get_pressed()[0]
 
-    screen.blit(current_screen, (0,0))
-    pygame.display.flip()
-    pygame.display.update()
+	for box in boxes:
+		if counter == 0:
+			if left_clicked and box.colliderect(rec0):
+				health_bar.hp = 67
+				counter += 1
+		elif counter == 1:
+			if left_clicked and box.colliderect(rec0):
+				health_bar.hp = 34
+				counter += 1
+		elif counter == 2:
+			if left_clicked and box.colliderect(rec0):
+				health_bar.hp = 0
+		print(counter)
 
-# Done! Time to quit.
-pygame.quit()
+	for event in pygame.event.get():
+		if event.type == pygame.MOUSEBUTTONDOWN:
+			if event.button == 1:
+				for num, box in enumerate(boxes):
+					if box.collidepoint(event.pos):
+						active_box = num
+		if event.type == pygame.MOUSEBUTTONUP:
+			if event.button == 1:
+				active_box = None
+		if event.type == pygame.MOUSEMOTION:
+			if active_box != None:
+				boxes[active_box].move_ip(event.rel)
+		if event.type == pygame.QUIT:
+			run = False
+		if event.type == pygame.KEYDOWN:
+			if event.key == pygame.K_ESCAPE:
+				run = False
+			#if event.key == pygame.K_r:
+				#do nothing for now
+
+	pygame.display.flip()
