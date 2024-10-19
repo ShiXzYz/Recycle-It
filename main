@@ -3,8 +3,8 @@ import random
 
 pygame.init()
 
-WIDTH = 500
-HEIGHT = 500
+WIDTH = 1000
+HEIGHT = 600
 fps = 60
 timer = pygame.time.Clock()
 screen = pygame.display.set_mode([WIDTH, HEIGHT])
@@ -18,13 +18,20 @@ rect_hand = edit_hand.get_rect()
 
 boxes = []
 for i in range(5):
-	x = random.randint(50, 700)
-	y = random.randint(50, 350)
+	x = random.randint(50, 850)
+	y = random.randint(50, 250)
 	w = random.randint(35, 65)
 	h = random.randint(35, 65)
 	box = pygame.Rect(x, y, w, h)
 	boxes.append(box)
 active_box = None
+
+
+rec0 = pygame.Rect(50, 400, 100, 175)
+rec1 = pygame.Rect(250, 400, 100, 175)
+rec2 = pygame.Rect(450, 400, 100, 175)
+rec3 = pygame.Rect(650, 400, 100, 175)
+rec4 = pygame.Rect(850, 400, 100, 175)
 
 run = True
 
@@ -35,6 +42,12 @@ while run:
 
 	for box in boxes:
 		pygame.draw.rect(screen, "purple", box)
+
+	rec0 = pygame.draw.rect(screen, "green", rec0)
+	rec1 = pygame.draw.rect(screen, "green", rec1)
+	rec2 = pygame.draw.rect(screen, "green", rec2)
+	rec3 = pygame.draw.rect(screen, "green", rec3)
+	rec4 = pygame.draw.rect(screen, "green", rec4)
 
 	screen.blit(edit_hand, mouse_position)
 	
@@ -56,6 +69,11 @@ while run:
 				boxes[active_box].move_ip(event.rel)
 		if event.type == pygame.QUIT:
 			run = False
+		if event.type == pygame.KEYDOWN:
+			if event.key == pygame.K_ESCAPE:
+				run = False
+			#if event.key == pygame.K_r:
+				#do nothing for now
 
 	pygame.display.flip()
 pygame.quit()
