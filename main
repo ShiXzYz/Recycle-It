@@ -26,16 +26,52 @@ class HealthBar():
     pygame.draw.rect(surface, "green", (self.x, self.y, self.w * ratio, self.h))
 health_bar = HealthBar(680, 10, 300, 40, 100)
 
+class can():
+	def __init__(self):
+		soda = pygame.image.load("soda.png")
+		edit_soda = pygame.transform.scale(soda, (100, 100))
+		rect_soda = edit_soda.get_rect()
+'''class pizza():
+class nail():
+class paper():
+class watermelon():
+class battery():
+class glasses():
+class notebook():
+class fork():
+class leaves():
+'''
+
 pygame.mouse.set_visible(False)
 
 #Image file loads
-hand = pygame.image.load("hand.webp")
+hand = pygame.image.load("images/hand.webp")
 edit_hand = pygame.transform.scale(hand, (20, 20))
 rect_hand = edit_hand.get_rect()
 
-soda = pygame.image.load("soda.png")
+soda = pygame.image.load("images/soda.png")
 edit_soda = pygame.transform.scale(soda, (100, 100))
 rect_soda = edit_soda.get_rect()
+
+lf = pygame.image.load("images/landfill.png")
+edit_lf = pygame.transform.scale(lf, (100, 175))
+rect_lf = edit_lf.get_rect()
+
+ow = pygame.image.load("images/organic.png")
+edit_ow = pygame.transform.scale(ow, (100, 175))
+rect_ow = edit_ow.get_rect()
+
+hw = pygame.image.load("images/haz_organic.png")
+edit_hw = pygame.transform.scale(hw, (100, 175))
+rect_hw = edit_hw.get_rect()
+
+pl = pygame.image.load("images/Plastic.png")
+edit_pl = pygame.transform.scale(pl, (100, 175))
+rect_pl = edit_pl.get_rect()
+
+pb = pygame.image.load("images/PaperBin.png")
+edit_pb = pygame.transform.scale(pb, (100, 175))
+rect_pb = edit_pb.get_rect()
 
 
 trash = []
@@ -68,11 +104,11 @@ while run:
 	for item in trash:
 		screen.blit(edit_soda, item)
 
-	rec0 = pygame.draw.rect(screen, "green", rec0)
-	rec1 = pygame.draw.rect(screen, "green", rec1)
-	rec2 = pygame.draw.rect(screen, "green", rec2)
-	rec3 = pygame.draw.rect(screen, "green", rec3)
-	rec4 = pygame.draw.rect(screen, "green", rec4)
+	screen.blit(edit_pl, rec0)
+	screen.blit(edit_pb, rec1)
+	screen.blit(edit_ow, rec2)
+	screen.blit(edit_hw, rec3)
+	screen.blit(edit_lf, rec4)
 
 	screen.blit(edit_hand, mouse_position)
 	
