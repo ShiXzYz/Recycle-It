@@ -26,22 +26,6 @@ class HealthBar():
     pygame.draw.rect(surface, "green", (self.x, self.y, self.w * ratio, self.h))
 health_bar = HealthBar(680, 10, 300, 40, 100)
 
-class can():
-	def __init__(self):
-		soda = pygame.image.load("soda.png")
-		edit_soda = pygame.transform.scale(soda, (100, 100))
-		rect_soda = edit_soda.get_rect()
-'''class pizza():
-class nail():
-class paper():
-class watermelon():
-class battery():
-class glasses():
-class notebook():
-class fork():
-class leaves():
-'''
-
 pygame.mouse.set_visible(False)
 
 #Image file loads
@@ -117,7 +101,7 @@ while run:
 	left_clicked = pygame.mouse.get_pressed()[0]
 
 	for item in trash:
-		if not left_clicked and item.colliderect(rec0):
+		if not left_clicked and item.colliderect(rec1):
 			health_bar.hp = 0
 			edit_soda = pygame.transform.scale(soda, (0, 0))
 
