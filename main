@@ -13,12 +13,10 @@ fps = 60
 timer = pygame.time.Clock()
 screen = pygame.display.set_mode([WIDTH, HEIGHT])
 
-title = pygame.image.load('images/LabBackground_.png').convert_alpha()
-start = pygame.font.SysFont('Roboto', 150)
-start_surface = start.render('Hoos Recycle', True, (0,0,0))
-
+title = pygame.image.load('images/TitleSlide_.png').convert_alpha()
 bg1 = pygame.image.load('images/LabBackground_.png').convert_alpha()
 fail = pygame.image.load('images/Failure.png').convert_alpha()
+success = pygame.image.load('images/Success_.png').convert_alpha()
 
 current_screen = title
 
@@ -46,7 +44,7 @@ hand = pygame.image.load("images/hand.webp")
 edit_hand = pygame.transform.scale(hand, (20, 20))
 rect_hand = edit_hand.get_rect()
 
-soda = pygame.image.load("images/soda.png")
+soda = pygame.image.load("images/Can.png")
 edit_soda = pygame.transform.scale(soda, (100, 100))
 rect_soda = edit_soda.get_rect()
 
@@ -105,7 +103,6 @@ while running:
 				#if event.key == pygame.K_p:
 					#do nothing for now (should restart)
 	screen.blit(current_screen, (0,0))
-	screen.blit(start_surface, (300,450))
 	pygame.display.flip()
 	pygame.display.update()
 
@@ -132,21 +129,25 @@ while running:
 		left_clicked = pygame.mouse.get_pressed()[0]
 
 		for item in trash:
+			if not left_clicked and item.colliderect(rec0):
+				health_bar.hp = 100
+				edit_soda = pygame.transform.scale(soda, (0, 0))
+				current_screen = success
+				screen.blit(current_screen, (0,0))
+				pygame.display.flip()
+				pygame.display.update()
 			if not left_clicked and item.colliderect(rec1):
 				health_bar.hp = 0
 				edit_soda = pygame.transform.scale(soda, (0, 0))
 				current_screen = fail
 				screen.blit(current_screen, (0,0))
-				start_surface = start.render('', True, (0,0,0))
 				pygame.display.flip()
 				pygame.display.update()
-				
 			elif not left_clicked and item.colliderect(rec2):
 				health_bar.hp = 0
 				edit_soda = pygame.transform.scale(soda, (0, 0))
 				current_screen = fail
 				screen.blit(current_screen, (0,0))
-				start_surface = start.render('', True, (0,0,0))
 				pygame.display.flip()
 				pygame.display.update()
 			elif not left_clicked and item.colliderect(rec3):
@@ -154,7 +155,6 @@ while running:
 				edit_soda = pygame.transform.scale(soda, (0, 0))
 				current_screen = fail
 				screen.blit(current_screen, (0,0))
-				start_surface = start.render('', True, (0,0,0))
 				pygame.display.flip()
 				pygame.display.update()
 			elif not left_clicked and item.colliderect(rec4):
@@ -162,7 +162,6 @@ while running:
 				edit_soda = pygame.transform.scale(soda, (0, 0))
 				current_screen = fail
 				screen.blit(current_screen, (0,0))
-				start_surface = start.render('', True, (0,0,0))
 				pygame.display.flip()
 				pygame.display.update()
 
