@@ -2,12 +2,25 @@ import pygame
 import random
 
 pygame.init()
+pygame.font.init()
 
+# Set up the drawing window
+# Run until the user asks to quit
+running = True
 WIDTH = 1000
 HEIGHT = 600
 fps = 60
 timer = pygame.time.Clock()
 screen = pygame.display.set_mode([WIDTH, HEIGHT])
+
+title = pygame.image.load('images/LabBackground_.png').convert_alpha()
+start = pygame.font.SysFont('Roboto', 150)
+start_surface = start.render('Hoos Recycle', True, (0,0,0))
+
+bg1 = pygame.image.load('images/LabBackground_.png').convert_alpha()
+fail = pygame.image.load('images/Failure.png').convert_alpha()
+
+current_screen = title
 
 pygame.display.set_caption('Hoos Recycle')
 class HealthBar():
@@ -78,54 +91,95 @@ run = True
 
 health_bar.hp = 100
 
-while run:
-	screen.fill('white')
-	timer.tick(fps)
-	mouse_position = pygame.mouse.get_pos()
-
-	health_bar.draw(screen)
-
-	for item in trash:
-		screen.blit(edit_soda, item)
-
-	screen.blit(edit_pl, rec0)
-	screen.blit(edit_pb, rec1)
-	screen.blit(edit_ow, rec2)
-	screen.blit(edit_hw, rec3)
-	screen.blit(edit_lf, rec4)
-
-	screen.blit(edit_hand, mouse_position)
-	
-
-	#print(pygame.mouse.get_pressed())
-	left_clicked = pygame.mouse.get_pressed()[0]
-
-	for item in trash:
-		if not left_clicked and item.colliderect(rec1):
-			health_bar.hp = 0
-			edit_soda = pygame.transform.scale(soda, (0, 0))
-
-		#print(counter)
-
+while running:
 	for event in pygame.event.get():
-		if event.type == pygame.MOUSEBUTTONDOWN:
-			if event.button == 1:
-				for num, item in enumerate(trash):
-					if item.collidepoint(event.pos):
-						active_item = num
-		if event.type == pygame.MOUSEBUTTONUP:
-			if event.button == 1:
-				active_item = None
-		if event.type == pygame.MOUSEMOTION:
-			if active_item != None:
-				trash[active_item].move_ip(event.rel)
 		if event.type == pygame.QUIT:
-			run = False
+			running = False
 		if event.type == pygame.KEYDOWN:
-			if event.key == pygame.K_ESCAPE:
-				run = False
-			#if event.key == pygame.K_r:
-				#do nothing for now
-
+			if event.key == pygame.K_SPACE:
+				if current_screen == title:
+					current_screen = bg1
+			if event.type == pygame.KEYDOWN:
+				if event.key == pygame.K_ESCAPE:
+					running = False
+				#if event.key == pygame.K_p:
+					#do nothing for now (should restart)
+	screen.blit(current_screen, (0,0))
+	screen.blit(start_surface, (300,450))
 	pygame.display.flip()
+	pygame.display.update()
+
+	while current_screen == bg1:
+		screen.fill('white')
+		timer.tick(fps)
+		mouse_position = pygame.mouse.get_pos()
+
+		health_bar.draw(screen)
+
+		for item in trash:
+			screen.blit(edit_soda, item)
+
+		screen.blit(edit_pl, rec0)
+		screen.blit(edit_pb, rec1)
+		screen.blit(edit_ow, rec2)
+		screen.blit(edit_hw, rec3)
+		screen.blit(edit_lf, rec4)
+
+		screen.blit(edit_hand, mouse_position)
+		
+
+		#print(pygame.mouse.get_pressed())
+		left_clicked = pygame.mouse.get_pressed()[0]
+
+		for item in trash:
+			if not left_clicked and item.colliderect(rec1):
+				health_bar.hp = 0
+				edit_soda = pygame.transform.scale(soda, (0, 0))
+				current_screen = fail
+				screen.blit(current_screen, (0,0))
+				start_surface = start.render('', True, (0,0,0))
+				pygame.display.flip()
+				pygame.display.update()
+				
+			elif not left_clicked and item.colliderect(rec2):
+				health_bar.hp = 0
+				edit_soda = pygame.transform.scale(soda, (0, 0))
+				current_screen = fail
+				screen.blit(current_screen, (0,0))
+				start_surface = start.render('', True, (0,0,0))
+				pygame.display.flip()
+				pygame.display.update()
+			elif not left_clicked and item.colliderect(rec3):
+				health_bar.hp = 0
+				edit_soda = pygame.transform.scale(soda, (0, 0))
+				current_screen = fail
+				screen.blit(current_screen, (0,0))
+				start_surface = start.render('', True, (0,0,0))
+				pygame.display.flip()
+				pygame.display.update()
+			elif not left_clicked and item.colliderect(rec4):
+				health_bar.hp = 0
+				edit_soda = pygame.transform.scale(soda, (0, 0))
+				current_screen = fail
+				screen.blit(current_screen, (0,0))
+				start_surface = start.render('', True, (0,0,0))
+				pygame.display.flip()
+				pygame.display.update()
+
+
+			#print(counter)
+
+		for event in pygame.event.get():
+			if event.type == pygame.MOUSEBUTTONDOWN:
+				if event.button == 1:
+					for num, item in enumerate(trash):
+						if item.collidepoint(event.pos):
+							active_item = num
+			if event.type == pygame.MOUSEBUTTONUP:
+				if event.button == 1:
+					active_item = None
+			if event.type == pygame.MOUSEMOTION:
+				if active_item != None:
+					trash[active_item].move_ip(event.rel)
+		pygame.display.flip()
 pygame.quit()
